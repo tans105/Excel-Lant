@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ExcelLent:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="ExcelLent.war">
+      <element id="artifact" artifact-name="ExcelLent:war exploded" />
+    </root>
+  </artifact>
+</component>
