@@ -1,7 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
-import entity.TestEntity;
+import entity.Product;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,25 +12,23 @@ import javax.ws.rs.core.Response;
  */
 @Path("/")
 public class TableManagementController {
-    @Path("/getTableDropDown")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getTableDropDown() {
-        TestEntity test=new TestEntity();
-        test.setFirstName("Tanmay");
-        test.setLastName("Awasthi");
-        String json=new Gson().toJson(test);
+	@Path("/getTableDropDown")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTableDropDown() {
+		Product test = new Product();
+		test.setFirstName("Tanmay");
+		test.setLastName("Awasthi");
+		String json = new Gson().toJson(test);
 
-        return Response.ok().entity(json).build();
-    }
+		return Response.ok().entity(json).build();
+	}
 
-    @Path("/downloadTableData")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getDownloadData() {
-        return Response.ok().build();
-    }
+	@Path("/downloadTableData")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDownloadData() {
+		return Response.ok().build();
+	}
 }
-
-
