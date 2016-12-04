@@ -1,11 +1,18 @@
 package controller;
 
-import com.google.gson.Gson;
-import entity.Product;
+import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.google.gson.Gson;
+
+import service.TableService;
 
 /**
  * Created by Tan$ on 12/3/2016.
@@ -16,10 +23,9 @@ public class TableManagementController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTableDropDown() {
-		Product test = new Product();
-		test.setFirstName("Tanmay");
-		test.setLastName("Awasthi");
-		String json = new Gson().toJson(test);
+		TableService service=new TableService();
+		List<String> tableList=service.getTableList();
+		String json = new Gson().toJson(tableList);
 
 		return Response.ok().entity(json).build();
 	}
