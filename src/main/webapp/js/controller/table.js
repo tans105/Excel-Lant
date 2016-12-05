@@ -2,31 +2,62 @@
  * Created by Tan$ on 12/3/2016.
  */
 
-var app = angular.module('excelLent',
-		['ngSanitize', 'ui.select']);
+var app = angular.module('excelLent', [ 'ui.select', 'ngSanitize' ]);
 app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 
-	$scope.reportMst = [ {
-		"name" : "Two Wheeler Report",
-		"code" : "0001"
-	}, {
-		"name" : "3M Report",
-		"code" : "0002"
-	}, {
-		"name" : "Three Wheeler Report",
-		"code" : "0003"
-	}, ];
+	app.filter('propsFilter', function() {
+		return function(items, props) {
+			var out = [];
 
-	
-	
+			if (angular.isArray(items)) {
+				var keys = Object.keys(props);
+
+				items
+						.forEach(function(item) {
+							var itemMatches = false;
+
+							for (var i = 0; i < keys.length; i++) {
+								var prop = keys[i];
+								var text = props[prop].toLowerCase();
+								if (item[prop].toString().toLowerCase()
+										.indexOf(text) !== -1) {
+									itemMatches = true;
+									break;
+								}
+							}
+
+							if (itemMatches) {
+								out.push(item);
+							}
+						});
+			} else {
+				// Let the output be the input untouched
+				out = items;
+			}
+
+			return out;
+		};
+	});
+
+	$scope.tableList = null;
+
 	$http({
 		method : 'GET',
 		url : '/ExcelLent/web/getTableDropDown'
 	}).then(function successCallback(response) {
-		console.log("Table Data----------->" + response);
+		console.log(response);
+		var decodedResponse = JSON.parse(angular.toJson(response));
+		var data = decodedResponse["data"];
+		console.log(data);
+		$scope.tableList = data;
+
 	}, function errorCallback(response) {
 		console.log(response);
+
 	});
 	
-	  
+	$scope.getTableColumns=function(){
+		console.log($scope.tableList.selected);
+	}
+
 });

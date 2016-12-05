@@ -3,60 +3,52 @@
 <head>
 <!-- Latest compiled and minified CSS -->
 
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
+
+<!-- ui-select files -->
+<script src="./select.js"></script>
+<link rel="stylesheet" href="./select.css">
+
+<script src="js/controller/table.js"></script>
+
+<!-- themes -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.1/angular-material.min.css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.css">
-	<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+
+
 
 </head>
 <body>
 
-	<div ng-app="excelLent" ng-controller="downloadCtrl as ctrl"
-		style="padding: 10px; margin-top: 150px; margin-left: 150px; margin-right: 150px; background: white;"
-		md-whiteframe="15">
+	<div ng-app="excelLent" ng-controller="downloadCtrl"
+	style="padding: 10px; margin-top: 150px; margin-left: 150px; margin-right: 150px; background: white;"
+	md-whiteframe="15">
 		<div class="row">
-			<div class="col-md-6">
-				<h3 style="color: #607D8B;">Select Report to download :</h3>
-			</div>
-			<div class="col-md-6" style="margin-top: 20px; float: left;'">
-			<ui-select ng-model="reportMst.selectedDownloadType" theme="select2">
-			<ui-select-match placeholder="Report types...">{{$select.selected.name}}</ui-select-match>
-			<ui-select-choices
-				repeat="type in reportMst | propsFilter: {name: $select.search ,code: $select.search}">
-			<span ng-bind-html="type.name | highlight: $select.search"></span> </ui-select-choices> </ui-select>
+			<div class="col-md-4">
+				<h4 style="color: #607D8B;">Select Table to download :</h4>
 		</div>
+			<div class="col-md-4"">
+				<ui-select ng-model="tableList.selected" theme="bootstrap">
+				<ui-select-match placeholder="Select the table to Download...">{{$select.selected}}</ui-select-match>
+				<ui-select-choices
+					repeat="item in tableList | filter: $select.search">
+				<div ng-bind-html="item | highlight: $select.search"></div>
+
+				</ui-select-choices> </ui-select>
 		</div>
+			<div class="col-md-4"><button type="button"
+				class="btn btn-primary btn-s" ng-click="getTableColumns()"><span
+					class="glyphicon glyphicon-download"></span> Download</button></div>
 	</div>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-aria.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-messages.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-sanitize.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.1/angular-material.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.js"></script>
+</div>
 
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-
-
-
-
-
-	<script src="js/controller/table.js"></script>
 </body>
 </html>
