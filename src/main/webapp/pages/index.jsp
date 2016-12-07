@@ -10,8 +10,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
 
 <!-- ui-select files -->
-<script src="./select.js"></script>
-<link rel="stylesheet" href="./select.css">
+<script src="js/libs/select.js"></script>
+<link rel="stylesheet" href="css/select.css">
 
 <script src="js/controller/table.js"></script>
 
@@ -32,11 +32,11 @@
 	style="padding: 10px; margin-top: 150px; margin-left: 150px; margin-right: 150px; background: white;"
 	md-whiteframe="15">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<h4 style="color: #607D8B;">Select Table to download :</h4>
 		</div>
 			<div class="col-md-4"">
-				<ui-select ng-model="tableList.selected" theme="bootstrap">
+				<ui-select ng-model="tableList.selected" theme="bootstrap" ng-change="getTableColumns()">
 				<ui-select-match placeholder="Select the table to Download...">{{$select.selected}}</ui-select-match>
 				<ui-select-choices
 					repeat="item in tableList | filter: $select.search">
@@ -44,8 +44,19 @@
 
 				</ui-select-choices> </ui-select>
 		</div>
-			<div class="col-md-4"><button type="button"
-				class="btn btn-primary btn-s" ng-click="getTableColumns()"><span
+		
+		<div class="col-md-4"">
+				<ui-select ng-model="columnList.selected" theme="bootstrap" ng-disabled="(!tableList.selected)">
+				<ui-select-match placeholder="Select the table to Download...">{{$select.selected}}</ui-select-match>
+				<ui-select-choices
+					repeat="item in columnList | filter: $select.search">
+				<div ng-bind-html="item | highlight: $select.search"></div>
+
+				</ui-select-choices> </ui-select>
+		</div>
+
+			<div class="col-md-1"><button type="button"
+				class="btn btn-primary btn-s" ng-click="#"><span
 					class="glyphicon glyphicon-download"></span> Download</button></div>
 	</div>
 </div>

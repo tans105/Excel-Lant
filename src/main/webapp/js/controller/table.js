@@ -43,7 +43,7 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 
 	$http({
 		method : 'GET',
-		url : '/ExcelLent/web/getTableDropDown'
+		url : '/ExcelLent/web/getTableList'
 	}).then(function successCallback(response) {
 		console.log(response);
 		var decodedResponse = JSON.parse(angular.toJson(response));
@@ -56,8 +56,29 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 
 	});
 	
-	$scope.getTableColumns=function(){
+	
+
+	$scope.getTableColumns = function() {
 		console.log($scope.tableList.selected);
+		$http({
+			method : 'POST',
+			url : '/ExcelLent/web/getColumnsOfTable',
+			data : {
+				'tableName' : $scope.tableList.selected
+			}
+
+		}).then(function successCallback(response) {
+			console.log(response);
+			var decodedResponse = JSON.parse(angular.toJson(response));
+			var data = decodedResponse["data"];
+			console.log(data);
+			$scope.columnList = data;
+
+		}, function errorCallback(response) {
+			console.log(response);
+
+		});
+
 	}
 
 });

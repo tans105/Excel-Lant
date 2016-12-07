@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,22 +21,31 @@ import service.TableService;
  */
 @Path("/")
 public class TableManagementController {
-	@Path("/getTableDropDown")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTableDropDown() {
-		TableService service=new TableService();
-		List<String> tableList=service.getTableList();
-		String json = new Gson().toJson(tableList);
+    @Path("/getTableList")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTableDropDown() {
+        TableService service = new TableService();
+        List<String> tableList = service.getTableList();
+        String json = new Gson().toJson(tableList);
 
-		return Response.ok().entity(json).build();
-	}
+        return Response.ok().entity(json).build();
+    }
 
-	@Path("/downloadTableData")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDownloadData() {
-		return Response.ok().build();
-	}
+    @Path("/getColumnsOfTable")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getColumnsOfTable(String downloadJSON) {
+    	Map<String, Object> downloadRequest = new HashMap<String, Object>();
+		downloadRequest = new Gson().fromJson(downloadJSON, downloadRequest.getClass());
+		
+    	TableService service = new TableService();
+    	String tableName = downloadRequest.get("tableName").toString();
+    	System.out.println("TABLE NAME------------>" +tableName);
+        List<String> tableList = service.getColumnsList(tableName);
+        String json = new Gson().toJson(tableList);
+        
+        return Response.ok().entity(json).build();
+    }
 }

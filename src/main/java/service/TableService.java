@@ -9,4 +9,10 @@ public class TableService {
 		TableDao dao = new TableDao();
 		return dao.getTableList();
 	}
+
+	public List<String> getColumnsList(String tableName) {
+		TableDao dao = new TableDao();
+		return dao.getColumnNames(tableName);
+
+	}
 }
