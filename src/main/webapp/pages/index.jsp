@@ -61,7 +61,7 @@
 				<ui-select ng-model="columnList.selected" theme="bootstrap"
 					ng-disabled="(!tableList.selected)"> <ui-select-match
 					placeholder="Select the table to Download...">{{$select.selected}}</ui-select-match>
-				<ui-select-choices repeat="item in items | filter: $select.search">
+				<ui-select-choices repeat="item in columnList | filter: $select.search">
 				<div ng-bind-html="item | highlight: $select.search"></div>
 
 				</ui-select-choices> </ui-select>
@@ -83,13 +83,13 @@
 						<div layout="row" layout-wrap="" flex="">
 							<div flex-xs="" flex="50">
 								<md-checkbox aria-label="Select All" ng-checked="isChecked()"
-									md-indeterminate="isIndeterminate()" ng-click="toggleAll()">
-								<span ng-if="isChecked()">Un-</span>Select All </md-checkbox>
+									ng-click="toggleAll()">
+								Select All </md-checkbox>
 							</div>
 							<div class="demo-select-all-checkboxes" flex="100"
 								ng-repeat="item in items">
-								<md-checkbox ng-checked="exists(item, selected)"
-									ng-click="toggle(item, selected)"> {{ item }} </md-checkbox>
+								<md-checkbox ng-checked="exists(item, selectedList)"
+									ng-click="toggle(item, selectedList)"> {{ item }} </md-checkbox>
 							</div>
 						</div>
 					</fieldset>

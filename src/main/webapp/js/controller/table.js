@@ -72,6 +72,8 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 			var decodedResponse = JSON.parse(angular.toJson(response));
 			var data = decodedResponse["data"];
 			console.log(data);
+			$scope.items = data;
+			$scope.selectedList = angular.copy(data);
 			$scope.columnList = data;
 
 		}, function errorCallback(response) {
@@ -81,8 +83,8 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 
 	}
 	
-	$scope.items = [1,2,3,4,5];
-	  $scope.selected = [1];
+//	$scope.items = [1,2,3,4,5];
+//	  $scope.selected = [1];
 	  $scope.toggle = function (item, list) {
 	    var idx = list.indexOf(item);
 	    if (idx > -1) {
@@ -97,21 +99,25 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 	    return list.indexOf(item) > -1;
 	  };
 
-	  $scope.isIndeterminate = function() {
-	    return ($scope.selected.length !== 0 &&
-	        $scope.selected.length !== $scope.items.length);
-	  };
-
-	  $scope.isChecked = function() {
-	    return $scope.selected.length === $scope.items.length;
-	  };
+//	  $scope.isIndeterminate = function() {
+//	    return ($scope.selected.length !== 0 &&
+//	        $scope.selected.length !== $scope.items.length);
+//	  };
 
 	  $scope.toggleAll = function() {
-	    if ($scope.selected.length === $scope.items.length) {
-	      $scope.selected = [];
-	    } else if ($scope.selected.length === 0 || $scope.selected.length > 0) {
-	      $scope.selected = $scope.items.slice(0);
+	    if ($scope.selectedList.length === $scope.items.length) {
+	      $scope.selectedList = [];
+	    } else if ($scope.selectedList.length === 0 || $scope.selectedList.length > 0) {
+	      $scope.selectedList = $scope.items.slice(0);
 	    }
 	  };
+	  
+	  $scope.isChecked = function(){
+		  if(angular.isDefined($scope.selectedList) && angular.isDefined($scope.items)){
+			  return ($scope.selectedList.length == $scope.items.length);
+		  }else{
+			  return false;
+		  }
+	  }
 
 });
