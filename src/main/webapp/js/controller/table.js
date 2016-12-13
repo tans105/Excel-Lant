@@ -83,8 +83,7 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 
 	}
 	
-//	$scope.items = [1,2,3,4,5];
-//	  $scope.selected = [1];
+
 	  $scope.toggle = function (item, list) {
 	    var idx = list.indexOf(item);
 	    if (idx > -1) {
@@ -118,6 +117,22 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 		  }else{
 			  return false;
 		  }
+	  }
+	  
+	  $scope.downloadTable=function(){
+		  console.log("Download Table called!!!");
+		  console.log("TABLE NAME: " +$scope.tableList.selected);
+		  console.log("COLUMN NAME: " +$scope.selectedList);
+	  }
+	  
+	  $scope.reset=function(){
+		  console.log("reset called");
+		  $scope.tableList.selected=null;
+		  $scope.selectedList=[];
+		  $scope.items=[];
+		  $scope.columnList=[];
+		  
+		  
 	  }
 
 });
