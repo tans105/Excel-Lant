@@ -22,6 +22,9 @@
 <script src="js/libs/select.js"></script>
 <link rel="stylesheet" href="css/select.css">
 
+<!--  loader files -->
+<link rel="stylesheet" href="css/loader.css">
+
 <script src="js/controller/table.js"></script>
 
 <!-- themes -->
@@ -33,6 +36,8 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.1/angular-material.min.css">
+	<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
 .container {
@@ -62,7 +67,7 @@
 					<h4>Select Table to download :</h4>
 				</div>
 				<div class="col-md-7"">
-					<ui-select ng-model="tableList.selected" theme="bootstrap"
+					<ui-select ng-model="tableList.selected" ng-disabled="loading" theme="bootstrap"
 						ng-change="getTableColumns()"> <ui-select-match
 						placeholder="Select the table to Download...">{{$select.selected}}</ui-select-match>
 					<ui-select-choices
@@ -72,14 +77,17 @@
 					</ui-select-choices> </ui-select>
 				</div>
 				<div class="col-md-1">
-					<button type="button" class="btn btn-primary btn-s" ng-click="downloadTable()" ng-disabled="!tableList.selected && !selectedList" >
+					<button type="button" class="btn btn-primary btn-s" ng-disabled="loading" ng-click="downloadTable()" ng-disabled="!tableList.selected && !selectedList" >
 						<span class="glyphicon glyphicon-download"></span> Download
 					</button>
 				</div>
 				<div class="col-md-1">
-					<button type="button" class="btn btn-danger btn-s" ng-click="reset()">Reset</button>
+					<button type="button" class="btn btn-danger btn-s" ng-click="reset()" ng-disabled="loading">Reset</button>
 				</div>
 			</div>
+		</div>
+		<div class="loader" ng-show="loading">
+			<i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>
 		</div>
 		<div
 			style="padding: 10px; margin-top: 50px; margin-left: 572px; margin-right: 591px; background: white;"
@@ -94,7 +102,7 @@
 							</legend>
 							<div layout="row" layout-wrap="" flex="">
 								<div flex-xs="" flex="50">
-									<md-checkbox aria-label="Select All" ng-checked="isChecked()"
+									<md-checkbox ng-disabled="loading" aria-label="Select All" ng-checked="isChecked()"
 										ng-click="toggleAll()"> Select All </md-checkbox>
 								</div>
 								<hr>
@@ -103,7 +111,8 @@
 									<div class="demo-select-all-checkboxes" flex="100"
 										ng-repeat="item in items">
 										<md-checkbox ng-checked="exists(item, selectedList)"
-											ng-click="toggle(item, selectedList)"> {{ item
+											ng-click="toggle(item, selectedList)"
+											ng-disabled="loading"> {{ item
 										}} </md-checkbox>
 									</div>
 								</div>
