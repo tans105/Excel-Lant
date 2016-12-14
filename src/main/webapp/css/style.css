@@ -1,0 +1,8 @@
+.container {
+	padding-top: 10px;
+	border: 2px solid #ccc;
+	width: 500px;
+	height: 400px;
+	overflow-y: scroll;
+	border: 2px solid #ccc;
+}
