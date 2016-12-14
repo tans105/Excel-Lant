@@ -128,6 +128,25 @@ app.controller('downloadCtrl', function($scope, $http, $timeout, $interval) {
 		  console.log("Download Table called!!!");
 		  console.log("TABLE NAME: " +$scope.tableList.selected);
 		  console.log("COLUMN NAME: " +$scope.selectedList);
+		  $scope.loading=true;
+			$http({
+				method : 'POST',
+				url : '/ExcelLent/web/downloadTableData',
+				data : {
+					'tableName' : $scope.tableList.selected,
+					'columnList':$scope.selectedList
+				}
+
+			}).then(function successCallback(response) {
+				console.log(response);
+				$scope.loading=false;
+
+			}, function errorCallback(response) {
+				$scope.loading=false;
+				console.log(response);
+
+			});
+
 	  }
 	  
 	  $scope.reset=function(){

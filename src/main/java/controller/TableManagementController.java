@@ -48,4 +48,14 @@ public class TableManagementController {
         
         return Response.ok().entity(json).build();
     }
+    
+    @Path("/downloadTableData")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response downloadExcelSheet(String downloadJSON){
+    	Map<String, Object> downloadRequest = new HashMap<String, Object>();
+    	downloadRequest = new Gson().fromJson(downloadJSON, downloadRequest.getClass());
+    	System.out.println("REQUEST--------->"+downloadRequest);
+    	return Response.ok().build();
+    }
 }

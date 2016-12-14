@@ -51,7 +51,7 @@
 					</ui-select-choices> </ui-select>
 				</div>
 				<div class="col-md-1">
-					<button type="button" class="btn btn-primary btn-s" ng-disabled="loading" ng-click="downloadTable()" ng-disabled="!tableList.selected && !selectedList" >
+					<button type="button" class="btn btn-primary btn-s" ng-disabled="loading||!tableList.selected" ng-click="downloadTable()" ng-disabled="!tableList.selected && !selectedList" >
 						<span class="glyphicon glyphicon-download"></span> Download
 					</button>
 				</div>
