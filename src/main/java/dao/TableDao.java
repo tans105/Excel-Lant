@@ -117,7 +117,6 @@ public class TableDao {
 
 		qry.append("FROM ");
 		qry.append(tableName);
-		System.out.println("Query is---->"+qry.toString());
 		
 		try {
 			session = HibernateUtils.getSessionFactory().openSession();

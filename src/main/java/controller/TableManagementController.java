@@ -70,7 +70,6 @@ public class TableManagementController {
     	
     	final String tableName=downloadRequest.get("tableName").toString();
     	final List<String> columnList=(List<String>) downloadRequest.get("columnList");
-    	System.out.println("hiiiii");
     	final TableService service=new TableService();
     	
     	StreamingOutput fileStream = new StreamingOutput() {
@@ -88,6 +87,6 @@ public class TableManagementController {
 				output.close();
 			}
 		};
-		return Response.ok(fileStream).build();
+		return Response.ok(fileStream).header("content-disposition", "attachment; filename =file.xls").build();
     }
 }
