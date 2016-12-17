@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +12,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.poi.ss.usermodel.Workbook;
+
 
 import com.google.gson.Gson;
 
@@ -21,6 +31,8 @@ import service.TableService;
  */
 @Path("/")
 public class TableManagementController {
+	
+	private static Logger logger = LoggerFactory.getLogger(TableManagementController.class);
     @Path("/getTableList")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,7 +67,27 @@ public class TableManagementController {
     public Response downloadExcelSheet(String downloadJSON){
     	Map<String, Object> downloadRequest = new HashMap<String, Object>();
     	downloadRequest = new Gson().fromJson(downloadJSON, downloadRequest.getClass());
-    	System.out.println("REQUEST--------->"+downloadRequest);
-    	return Response.ok().build();
+    	
+    	final String tableName=downloadRequest.get("tableName").toString();
+    	final List<String> columnList=(List<String>) downloadRequest.get("columnList");
+    	System.out.println("hiiiii");
+    	final TableService service=new TableService();
+    	
+    	StreamingOutput fileStream = new StreamingOutput() {
+
+			public void write(OutputStream output) throws IOException, WebApplicationException {
+				ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
+				byte[] outArray;
+				Workbook workbook = null;
+				workbook = service.getWorkbook(tableName, columnList);
+
+				workbook.write(outByteStream);
+				outArray = outByteStream.toByteArray();
+				output.write(outArray);
+				output.flush();
+				output.close();
+			}
+		};
+		return Response.ok(fileStream).build();
     }
 }
