@@ -77,10 +77,17 @@ public class TableManagementController {
 			public void write(OutputStream output) throws IOException, WebApplicationException {
 				ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 				byte[] outArray;
+				Integer errorCode=0;
 				Workbook workbook = null;
+				try{
 				workbook = service.getWorkbook(tableName, columnList);
-
 				workbook.write(outByteStream);
+				}catch(Exception e){
+					errorCode=1;
+					System.out.println("-----------------------------------------------------------------");
+					e.printStackTrace();
+				}
+				System.out.println(errorCode);
 				outArray = outByteStream.toByteArray();
 				output.write(outArray);
 				output.flush();

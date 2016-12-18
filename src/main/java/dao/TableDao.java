@@ -127,7 +127,7 @@ public class TableDao {
 			tx = null;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("ALERT!------------>SYSTEM TABLE" );
 		} finally {
 			DbUtil.closeSession(session);
 			DbUtil.rollBackTransaction(tx);
