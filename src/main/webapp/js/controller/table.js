@@ -147,23 +147,31 @@ app
 								.then(
 										function successCallback(response) {
 											console.log(response);
-											var header = response
-													.headers('Content-Disposition')
-											var fileName = header.split("=")[1]
-													.replace(/\"/gi, '');
+											var byteLength = response.data.byteLength;
+											console.log(response.data.byteLength);
+											if (byteLength == 0) {
+												alert("System Table Detected...Taking care of it!!");
+											} else {
+												var header = response
+														.headers('Content-Disposition')
+												var fileName = header
+														.split("=")[1].replace(
+														/\"/gi, '');
 
-											var blob = new Blob(
-													[ response.data ],
-													{
-														type : 'application/vnd.openxmlformats-officedocument.presentationml.presentation;charset=UTF-8'
-													});
-											var objectUrl = (window.URL || window.webkitURL)
-													.createObjectURL(blob);
-											var link = angular.element('<a/>');
-											link.attr({
-												href : objectUrl,
-												download : fileName
-											})[0].click();
+												var blob = new Blob(
+														[ response.data ],
+														{
+															type : 'application/vnd.openxmlformats-officedocument.presentationml.presentation;charset=UTF-8'
+														});
+												var objectUrl = (window.URL || window.webkitURL)
+														.createObjectURL(blob);
+												var link = angular
+														.element('<a/>');
+												link.attr({
+													href : objectUrl,
+													download : fileName
+												})[0].click();
+											}
 											$scope.loading = false;
 
 										}, function errorCallback(response) {
@@ -181,6 +189,11 @@ app
 						$scope.items = [];
 						$scope.columnList = [];
 
+					}
+
+					function arrayBufferToString(buf) {
+						return String.fromCharCode.apply(null, new Uint16Array(
+								buf));
 					}
 
 				});

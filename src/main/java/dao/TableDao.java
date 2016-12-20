@@ -28,6 +28,7 @@ public class TableDao {
 				public void execute(Connection connection) throws SQLException {
 					java.sql.DatabaseMetaData dbmd;
 					dbmd = connection.getMetaData();
+					
 					java.sql.ResultSet rs = dbmd.getColumns(null, null, "%", null);
 					while (rs.next()) {
 						if (tableList.contains(rs.getString("TABLE_NAME"))) {
