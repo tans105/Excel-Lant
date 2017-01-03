@@ -11,8 +11,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.jdbc.Work;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import entity.RejectTable;
 import utils.DbUtil;
 import utils.HibernateUtils;
 
@@ -28,7 +31,7 @@ public class TableDao {
 				public void execute(Connection connection) throws SQLException {
 					java.sql.DatabaseMetaData dbmd;
 					dbmd = connection.getMetaData();
-					
+
 					java.sql.ResultSet rs = dbmd.getColumns(null, null, "%", null);
 					while (rs.next()) {
 						if (tableList.contains(rs.getString("TABLE_NAME"))) {
@@ -84,8 +87,7 @@ public class TableDao {
 		try {
 			session = HibernateUtils.getSessionFactory().openSession();
 			tx = session.beginTransaction();
-			Query query = session.createSQLQuery("select * from users")
-					.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+			Query query = session.createSQLQuery("select * from users").setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 
 			list = query.list();
 			System.out.println(list.get(0).get("mobile_no"));
@@ -110,7 +112,7 @@ public class TableDao {
 		for (int i = 0; i < columnList.size(); i++) {
 			qry.append(" ");
 			qry.append(columnList.get(i));
-			if (i != columnList.size()-1) {
+			if (i != columnList.size() - 1) {
 				qry.append(",");
 			}
 			qry.append(" ");
@@ -118,7 +120,7 @@ public class TableDao {
 
 		qry.append("FROM ");
 		qry.append(tableName);
-		
+
 		try {
 			session = HibernateUtils.getSessionFactory().openSession();
 			tx = session.beginTransaction();
@@ -128,12 +130,36 @@ public class TableDao {
 			tx = null;
 
 		} catch (Exception e) {
-			System.out.println("ALERT!------------>SYSTEM TABLE" );
+			System.out.println("ALERT!------------>SYSTEM TABLE");
+			createRejectionTable(tableName);
 		} finally {
 			DbUtil.closeSession(session);
 			DbUtil.rollBackTransaction(tx);
 		}
 		return list;
+	}
+
+	private void createRejectionTable(String tableName) {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			SessionFactory sf = HibernateUtils.getSessionFactory();
+			session = sf.openSession();
+			tx = session.beginTransaction();
+			RejectTable reject = new RejectTable();
+			reject.setTableName(tableName);
+			session.persist(reject);
+			tx.commit();
+		} catch (Exception e) {
+			System.out.println("FAILED TO CREATE REJECT TABLE");
+
+		}
+		finally {
+			DbUtil.closeSession(session);
+			DbUtil.rollBackTransaction(tx);
+		}
+		System.out.println("SAVED");
+
 	}
 
 }

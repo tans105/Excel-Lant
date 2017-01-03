@@ -8,12 +8,14 @@
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.username">postgres</property>
 		<property name="hibernate.connection.password">postgres</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/benq</property>
 		<property name="hbmdl.auto">update</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
+		
 		<property name="show_sql">true</property>
 
 		<mapping resource="com/hibernate/entity/Product.hbm.xml" />
-		
+		<mapping class="entity.RejectTable"/>
+
 	</session-factory>
 </hibernate-configuration>

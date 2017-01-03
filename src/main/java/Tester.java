@@ -10,24 +10,24 @@ import utils.HibernateUtils;
 
 public class Tester {
 	public static void main(String[] args) {
-		AnnotationConfiguration config=new AnnotationConfiguration();
-		config.addAnnotatedClass(RejectTable.class);
-		config.configure("hibernate.cfg.xml");
+//		AnnotationConfiguration config=new AnnotationConfiguration();
+//		config.addAnnotatedClass(RejectTable.class);
+//		config.configure("hibernate.cfg.xml");
+//		
+//		new SchemaExport(config).create(true,true);
 		
-		new SchemaExport(config).create(true,true);
 		
-		
-//		Session session = null;
-//		Transaction tx = null;
-//		SessionFactory sf = HibernateUtils.getSessionFactory();
-//		session = sf.openSession();
-//		tx = session.beginTransaction();
-//		RejectTable reject = new RejectTable();
-//		reject.setId(1);
-//		reject.setTableName("test");
-//		session.persist(reject);
-//		tx.commit();
-//		session.close();
-//		System.out.println("SAVED");
+		Session session = null;
+		Transaction tx = null;
+		SessionFactory sf = HibernateUtils.getSessionFactory();
+		session = sf.openSession();
+		tx = session.beginTransaction();
+		RejectTable reject = new RejectTable();
+//		reject.setId(2);
+		reject.setTableName("test");
+		session.persist(reject);
+		tx.commit();
+		session.close();
+		System.out.println("SAVED");
 	}
 }
