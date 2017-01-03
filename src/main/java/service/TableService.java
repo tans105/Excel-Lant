@@ -19,6 +19,11 @@ public class TableService {
 		TableDao dao = new TableDao();
 		return dao.getTableList();
 	}
+	
+	public List<String> getRejectedTables(){
+		TableDao dao=new TableDao();
+		return dao.getRejectedTables();
+	}
 
 	public List<String> getColumnsList(String tableName) {
 		TableDao dao = new TableDao();

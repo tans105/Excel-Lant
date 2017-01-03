@@ -80,17 +80,17 @@ public class TableDao {
 		return columnNames;
 	}
 
-	public List<Map<Object, Object>> getUserBranchMappingList() {
+	public List<String> getRejectedTables() {
 		Session session = null;
 		Transaction tx = null;
-		List<Map<Object, Object>> list = null;
+		List<String> list = null;
 		try {
 			session = HibernateUtils.getSessionFactory().openSession();
 			tx = session.beginTransaction();
-			Query query = session.createSQLQuery("select * from users").setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+			Query query = session.createSQLQuery("select tablename from reject_table");
 
 			list = query.list();
-			System.out.println(list.get(0).get("mobile_no"));
+			System.out.println("REJECTED TABLES: "+list);
 			tx.commit();
 			tx = null;
 

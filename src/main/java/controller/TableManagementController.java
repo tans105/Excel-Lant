@@ -38,10 +38,21 @@ public class TableManagementController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTableDropDown() {
 		TableService service = new TableService();
+		List<String> rejectedTables=service.getRejectedTables();
 		List<String> tableList = service.getTableList();
-		String json = new Gson().toJson(tableList);
+		List<String> validTables=getCurrentValidTableList(tableList,rejectedTables);
+		String json = new Gson().toJson(validTables);
 
 		return Response.ok().entity(json).build();
+	}
+
+	private List<String> getCurrentValidTableList(List<String> tableList, List<String> rejectedTables) {
+		for(String s:rejectedTables){
+			if(tableList.contains(s)){
+				tableList.remove(s);
+			}
+		}
+		return tableList;
 	}
 
 	@Path("/getColumnsOfTable")
