@@ -151,6 +151,7 @@ app
 											console.log(response.data.byteLength);
 											if (byteLength == 0) {
 												alert("System Table Detected...Taking care of it!!");
+												location.reload();	
 											} else {
 												var header = response
 														.headers('Content-Disposition')
