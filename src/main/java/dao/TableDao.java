@@ -131,7 +131,9 @@ public class TableDao {
 
 		} catch (Exception e) {
 			System.out.println("ALERT!------------>SYSTEM TABLE");
-			createRejectionTable(tableName);
+			if (isTablePresentInRejects(tableName)) {
+				createOrUpdateRejectionTable(tableName);
+			}
 		} finally {
 			DbUtil.closeSession(session);
 			DbUtil.rollBackTransaction(tx);
@@ -139,7 +141,33 @@ public class TableDao {
 		return list;
 	}
 
-	private void createRejectionTable(String tableName) {
+	private boolean isTablePresentInRejects(String tableName) {
+
+		Session session = null;
+		Transaction tx = null;
+		int count = 0;
+		try {
+			SessionFactory sf = HibernateUtils.getSessionFactory();
+			session = sf.openSession();
+			tx = session.beginTransaction();
+			Query query = session.createSQLQuery("select count(*) from reject_table where tablename='" + tableName + "'");
+			count = Integer.parseInt(query.list().get(0).toString());
+			System.out.println("COUNT IS :" + count);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbUtil.closeSession(session);
+			DbUtil.rollBackTransaction(tx);
+		}
+		if (count > 0)
+			return false;
+		else {
+			return true;
+		}
+	}
+
+	private void createOrUpdateRejectionTable(String tableName) {
 		Session session = null;
 		Transaction tx = null;
 		try {
@@ -153,8 +181,7 @@ public class TableDao {
 		} catch (Exception e) {
 			System.out.println("FAILED TO CREATE REJECT TABLE");
 
-		}
-		finally {
+		} finally {
 			DbUtil.closeSession(session);
 			DbUtil.rollBackTransaction(tx);
 		}
