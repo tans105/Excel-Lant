@@ -151,7 +151,12 @@ app
 											console.log(response.data.byteLength);
 											if (byteLength == 0) {
 												alert("System Table Detected...Taking care of it!!");
-												location.reload();	
+												var index=$scope.tableList.indexOf($scope.tableList.selected);
+												if (index > -1) {
+												    $scope.tableList.splice(index, 1);
+												}
+												reset();
+//												location.reload();	
 											} else {
 												var header = response
 														.headers('Content-Disposition')
@@ -190,6 +195,13 @@ app
 						$scope.items = [];
 						$scope.columnList = [];
 
+					}
+					
+					var reset=function(){
+						$scope.tableList.selected = null;
+						$scope.selectedList = [];
+						$scope.items = [];
+						$scope.columnList = [];
 					}
 
 					function arrayBufferToString(buf) {
