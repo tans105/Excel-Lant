@@ -30,11 +30,11 @@
 
 <body>
 	<div ng-app="excelLent" ng-controller="downloadCtrl">
-		<div style="text-align:center;">
+		<!-- <div style="text-align:center;">
 			<img src="./images/excellent.PNG">
-		</div>
+		</div> -->
 		<div
-			style="padding: 10px; margin-top: 40px; margin-left: 150px; margin-right: 150px; background: white;"
+			style="padding: 10px; /* margin-top: 40px; */ margin-left: 150px; margin-right: 150px; background: white;"
 			md-whiteframe="5">
 			<div class="row">
 				<div class="col-md-3">
