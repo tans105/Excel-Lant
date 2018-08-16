@@ -39,7 +39,7 @@
                 <div class="col-md-3">
                     <h4>Select Table to download :</h4>
                 </div>
-                <div class="col-md-7"">
+                <div class="col-md-7">
 					<ui-select ng-model=" tableList.selected" ng-disabled="loading" theme="bootstrap" ng-change="getTableColumns()">
                     <ui-select-match placeholder="Select the table to Download...">{{$select.selected}}</ui-select-match>
                     <ui-select-choices repeat="item in tableList | filter: $select.search">
